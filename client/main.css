@@ -1,1 +1,8 @@
 /* CSS declarations go here */
+.ingredients-table {
+	border-collapse: collapse
+}
+
+.ingredients-table > table, th, td {
+    border: 1px solid black;
+}
