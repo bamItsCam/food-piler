@@ -18,7 +18,7 @@ class IngredientManager extends Component {
 			/>
 		));
 	}
-	
+
 	addNewBlankIngredient() {
 		Ingredients.insert({
 			ingrName: '',
