@@ -45,7 +45,7 @@ class IngredientManager extends Component {
 				</header>
 				<button onClick={this.addNewBlankIngredient.bind(this)}>Add New</button>
 
-				<table className="ingredients-table">
+				<table className="table is-striped">
 					<thead>
 						<tr>
 							<th></th>

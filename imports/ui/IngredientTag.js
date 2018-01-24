@@ -20,7 +20,7 @@ export default class IngredientTag extends Component {
       // if this is the row we should be editing, then return the input boxes
       console.log("editing!");
       return (
-        <tr>
+        <tr className="is-selected">
         	<td><button onClick={this.cancelEdit.bind(this)}>Cancel</button></td>
           <td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrNameInline" defaultValue={ingredient.ingrName}/></td>
 					<td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrDescInline" defaultValue={ingredient.ingrDesc}/></td>

@@ -1,8 +1,9 @@
 /* CSS declarations go here */
-.ingredients-table {
+@import "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css";
+/*.ingredients-table {
 	border-collapse: collapse
 }
 
 .ingredients-table > table, th, td {
     border: 1px solid black;
-}
+}*/
