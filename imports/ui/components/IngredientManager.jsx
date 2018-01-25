@@ -27,14 +27,9 @@ class IngredientManager extends Component {
 			ingrSweet: '',
 			ingrSalty: '',
 			ingrFlex: '',
+			editing: true,
 			createdAt: new Date(),
 		});
-		//TODO: somehow get the edit state shared between components
-		// This could likely be done by adding another column to mongo called "isEditing" or something.
-		// kinda clunky but can't think of another way to share state
-		//IngredientTag.setState({
-  		//	editingId: Ingredients.findOne({}, {sort: {DateTime: -1, limit: 1}}),
-    	//});
 	}
 
 	render() {
