@@ -3,20 +3,13 @@ import ReactDOM from 'react-dom';
 import { Ingredients } from '../api/ingredients.js';
  
 export default class IngredientTag extends Component {
-  constructor(props) {
-		super(props);
-	  
-		this.state = {
-			editingId: null,
-		};
-	}
 	
   render() {
     return this.renderOrEditField( this.props.ingredient );
   }
   
   renderOrEditField( ingredient ) {
-    if( this.state.editingId === ingredient._id) {
+    if( ingredient.editing ) {
       // if this is the row we should be editing, then return the input boxes
       console.log("editing!");
       return (
@@ -34,6 +27,7 @@ export default class IngredientTag extends Component {
     }
     else {
       // simply render the table row
+      console.log("not editing");
       return (
         <tr>
         	<td><button onClick={this.editIngr.bind(this, ingredient._id )}>Edit</button></td>
@@ -58,7 +52,7 @@ export default class IngredientTag extends Component {
 		  const ingrSalty = ReactDOM.findDOMNode(this.refs.ingrSaltyInline).value.trim();
 		  const ingrFlex = ReactDOM.findDOMNode(this.refs.ingrFlexInline).value.trim();
 
-  		Ingredients.update(this.state.editingId, {
+  		Ingredients.update(this.props.ingredient._id, {
   			$set: {
   			  ingrName: ingrName,
     			ingrDesc: ingrDesc,
@@ -66,11 +60,9 @@ export default class IngredientTag extends Component {
     			ingrSweet: ingrSweet,
     			ingrSalty: ingrSalty,
     			ingrFlex: ingrFlex,
+          editing: false,
   			}
 		  });
-  		this.setState({
-  	    editingId: null,
-  	  });
     }
   }
 
@@ -78,14 +70,17 @@ export default class IngredientTag extends Component {
   	Ingredients.remove(this.props.ingredient._id);
   }
   editIngr( ingredientId ) {
-  	// ????? https://themeteorchef.com/tutorials/click-to-edit-fields-in-react
-  	this.setState({
-  	  editingId: ingredientId,
-  	});
+  	Ingredients.update(this.props.ingredient._id, {
+        $set: {
+          editing: true,
+        }
+      });
   }
   cancelEdit() {
-    this.setState({
-  	  editingId: null,
+    Ingredients.update(this.props.ingredient._id, {
+      $set: {
+        editing: false,
+      }
     });
   }
 }
