@@ -14,13 +14,13 @@ export default class IngredientTag extends Component {
       console.log("editing!");
       return (
         <tr className="is-selected">
-        	<td><button onClick={this.cancelEdit.bind(this)}>Cancel</button></td>
-          <td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrNameInline" defaultValue={ingredient.ingrName}/></td>
-					<td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrDescInline" defaultValue={ingredient.ingrDesc}/></td>
-					<td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrSpicyInline" defaultValue={ingredient.ingrSpicy}/></td>
-					<td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrSweetInline" defaultValue={ingredient.ingrSweet}/></td>
-					<td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrSaltyInline" defaultValue={ingredient.ingrSalty}/></td>
-					<td><input type="text" onKeyDown={this.handleEditSubmit.bind(this)} ref="ingrFlexInline" defaultValue={ingredient.ingrFlex}/></td>
+        	<td><span><button onClick={this.cancelEdit.bind(this)}>Cancel</button><button onClick={this.submitIngr.bind(this)}>Save</button></span></td>
+          <td><input type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrNameInline" defaultValue={ingredient.ingrName}/></td>
+					<td><input type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrDescInline" defaultValue={ingredient.ingrDesc}/></td>
+					<td><input type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrSpicyInline" defaultValue={ingredient.ingrSpicy}/></td>
+					<td><input type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrSweetInline" defaultValue={ingredient.ingrSweet}/></td>
+					<td><input type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrSaltyInline" defaultValue={ingredient.ingrSalty}/></td>
+					<td><input type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrFlexInline" defaultValue={ingredient.ingrFlex}/></td>
 					<td><button onClick={this.deleteIngr.bind(this)}>Delete</button></td>
         </tr>
       );
@@ -43,27 +43,32 @@ export default class IngredientTag extends Component {
     }
   }
   
-  handleEditSubmit(event) {
+  handleSubmitWithEnter(event) {
+    // if keypress was enter key, submit
     if( event.keyCode === 13 ) {
-      const ingrName = ReactDOM.findDOMNode(this.refs.ingrNameInline).value.trim();
-		  const ingrDesc = ReactDOM.findDOMNode(this.refs.ingrDescInline).value.trim();
-		  const ingrSpicy = ReactDOM.findDOMNode(this.refs.ingrSpicyInline).value.trim();
-		  const ingrSweet = ReactDOM.findDOMNode(this.refs.ingrSweetInline).value.trim();
-		  const ingrSalty = ReactDOM.findDOMNode(this.refs.ingrSaltyInline).value.trim();
-		  const ingrFlex = ReactDOM.findDOMNode(this.refs.ingrFlexInline).value.trim();
-
-  		Ingredients.update(this.props.ingredient._id, {
-  			$set: {
-  			  ingrName: ingrName,
-    			ingrDesc: ingrDesc,
-    			ingrSpicy: ingrSpicy,
-    			ingrSweet: ingrSweet,
-    			ingrSalty: ingrSalty,
-    			ingrFlex: ingrFlex,
-          editing: false,
-  			}
-		  });
+      submitIngr();
     }
+  }
+
+  submitIngr() {
+    const ingrName = ReactDOM.findDOMNode(this.refs.ingrNameInline).value.trim();
+    const ingrDesc = ReactDOM.findDOMNode(this.refs.ingrDescInline).value.trim();
+    const ingrSpicy = ReactDOM.findDOMNode(this.refs.ingrSpicyInline).value.trim();
+    const ingrSweet = ReactDOM.findDOMNode(this.refs.ingrSweetInline).value.trim();
+    const ingrSalty = ReactDOM.findDOMNode(this.refs.ingrSaltyInline).value.trim();
+    const ingrFlex = ReactDOM.findDOMNode(this.refs.ingrFlexInline).value.trim();
+
+    Ingredients.update(this.props.ingredient._id, {
+      $set: {
+        ingrName: ingrName,
+        ingrDesc: ingrDesc,
+        ingrSpicy: ingrSpicy,
+        ingrSweet: ingrSweet,
+        ingrSalty: ingrSalty,
+        ingrFlex: ingrFlex,
+        editing: false,
+      }
+    });
   }
 
   deleteIngr() {
