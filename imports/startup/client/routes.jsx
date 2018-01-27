@@ -10,8 +10,8 @@ const browserHistory = createBrowserHistory();
 export const renderRoutes = () => (
   <Router history={browserHistory}>
 	<div>
-      <Route path="/" component={ Piler } />
-      <Route path="/admin" component={ IngredientManager } />
+      <Route exact path='/' component={ Piler } />
+      <Route path='/admin' component={ IngredientManager } />
     </div>
   </Router>
 );
