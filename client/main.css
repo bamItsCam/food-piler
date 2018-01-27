@@ -1,6 +1,5 @@
-/* CSS declarations go here */
 @import "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css";
-@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "https://use.fontawesome.com/releases/v5.0.6/css/all.css";
 /*.ingredients-table {
 	border-collapse: collapse
 }
