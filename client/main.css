@@ -1,9 +1,44 @@
 /* CSS declarations go here */
 @import "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css";
-/*.ingredients-table {
-	border-collapse: collapse
+@import "https://use.fontawesome.com/releases/v5.0.6/css/all.css";
+
+table {
+	width: 100%;
 }
 
-.ingredients-table > table, th, td {
-    border: 1px solid black;
-}*/
+.button {
+	margin-left: 2.5px;
+	margin-right: 2.5px;
+}
+
+.table-two-buttons {
+	width: 10%;
+	min-width:106px;
+}
+
+.table-name {
+	width: 20%;
+	min-width: 200px;
+}
+
+.table-desc {
+	width: auto;
+	min-width: 250px;
+}
+
+.table-number {
+	width: 5%;
+	min-width: 50px;
+	max-width: 70px;
+}
+
+.table-bool {
+	width: 5%
+	min-width: 50px;
+	max-width: 70px;
+}
+
+.table-one-button {
+	width: 5%;
+	min-width: 65px;
+}
