@@ -6,6 +6,22 @@ import { Ingredients } from '../../api/ingredients.js';
 import 'rc-slider/assets/index.css';
 
 class Piler extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			gfGrey: true,
+			dfGrey: true,
+			efGrey: true,
+			veganGrey: true,
+			veggieGrey: true,
+			fishGrey: true,
+		};
+	}
+
+	toggleCheck(varName) {
+		const current_state = this.state[varName];
+		this.setState({[varName] : !current_state});
+	}
 
 	render() {
 		return (
@@ -20,28 +36,28 @@ class Piler extends Component {
 								<h3 className="subtitle has-text-grey">1: Select your <b>dietary preferences</b></h3><br></br>
 								<div className="columns is-centered">
 									<div className="tags">
-										<div className="tag is-medium">
-											<input type="checkbox" ref="BadGluten"></input>
+										<div className={this.state.gfGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
+											<input type="checkbox" ref="BadGluten" onClick={this.toggleCheck.bind(this,'gfGrey')}></input>
 											<p>Gluten-free</p>
 										</div>
-										<div className="tag is-medium">
-											<input type="checkbox" ref="BadDairy"></input>
+										<div className={this.state.dfGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
+											<input type="checkbox" ref="BadDairy" onClick={this.toggleCheck.bind(this,'dfGrey')}></input>
 											<p>Dairy-free</p>
 										</div>
-										<div className="tag is-medium">
-											<input type="checkbox" ref="BadEggs"></input>
+										<div className={this.state.efGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
+											<input type="checkbox" ref="BadEgg" onClick={this.toggleCheck.bind(this,'efGrey')}></input>
 											<p>Egg-free</p>
 										</div>
-										<div className="tag is-medium">
-											<input type="checkbox" ref="SuperVeggie"></input>
+										<div className={this.state.veganGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
+											<input type="checkbox" ref="SuperVeggie" onClick={this.toggleCheck.bind(this,'veganGrey')}></input>
 											<p>Vegan</p>
 										</div>
-										<div className="tag is-medium">
-											<input type="checkbox" ref="Veggie"></input>
+										<div className={this.state.veggieGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
+											<input type="checkbox" ref="Veggie" onClick={this.toggleCheck.bind(this,'veggieGrey')}></input>
 											<p>Vegetarian</p>
 										</div>
-										<div className="tag is-medium">
-											<input type="checkbox" ref="Fishy"></input>
+										<div className={this.state.fishGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
+											<input type="checkbox" ref="Fishy" onClick={this.toggleCheck.bind(this,'fishGrey')}></input>
 											<p>Pescetarian</p>
 										</div>
 									</div>
