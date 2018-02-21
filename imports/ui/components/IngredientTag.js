@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
 import ReactDOM from 'react-dom';
-import { Ingredients } from '../../api/ingredients.js';
  
 export default class IngredientTag extends Component {
 	
@@ -128,15 +128,6 @@ export default class IngredientTag extends Component {
 		}
 	}
 
-	toggleCheck(checkboxName, newCheckboxState) {
-		Ingredients.update(this.props.ingredient._id, {
-				$set: {
-					// because we need to use the var checkboxName, and not the string 'checkboxName', use []
-					[checkboxName]: newCheckboxState,
-				}
-			});
-	}
-	
 	handleSubmitWithEnter(event) {
 		// if keypress was enter key, submit
 		if( event.keyCode === 13 ) {
@@ -144,10 +135,14 @@ export default class IngredientTag extends Component {
 		}
 	}
 
+	toggleCheck(checkboxName, newCheckboxState) {
+		Meteor.call('ingredients.toggleCheck', this.props.ingredient._id, checkboxName, newCheckboxState);
+	}
+
 	submitIngrText() {
 		// Note that this function does not handle checkbox submits, those are handled after each
 		// check/uncheck since it would be unintuitive for those to require an additional action to save
-		// their state. THis can be changed if is not intuitive
+		// their state. This can be changed if not preferred
 		const ingrName = ReactDOM.findDOMNode(this.refs.ingrNameInline).value.trim();
 		const ingrDesc = ReactDOM.findDOMNode(this.refs.ingrDescInline).value.trim();
 		const ingrSpicy = ReactDOM.findDOMNode(this.refs.ingrSpicyInline).value.trim();
@@ -155,34 +150,16 @@ export default class IngredientTag extends Component {
 		const ingrSalty = ReactDOM.findDOMNode(this.refs.ingrSaltyInline).value.trim();
 		const ingrFlex = ReactDOM.findDOMNode(this.refs.ingrFlexInline).value.trim();
 
-		Ingredients.update(this.props.ingredient._id, {
-			$set: {
-				ingrName: ingrName,
-				ingrDesc: ingrDesc,
-				ingrSpicy: ingrSpicy,
-				ingrSweet: ingrSweet,
-				ingrSalty: ingrSalty,
-				ingrFlex: ingrFlex,
-				editing: false,
-			}
-		});
+		Meteor.call('ingredients.submitIngrText', this.props.ingredient._id, ingrName, ingrDesc, ingrSpicy, ingrSweet, ingrSalty, ingrFlex);
 	}
 
 	deleteIngr() {
-		Ingredients.remove(this.props.ingredient._id);
+		Meteor.call('ingredients.deleteIngr', this.props.ingredient._id);
 	}
 	editIngr() {
-		Ingredients.update(this.props.ingredient._id, {
-				$set: {
-					editing: true,
-				}
-			});
+		Meteor.call('ingredients.toggleEditIngr', this.props.ingredient._id, true);
 	}
 	cancelEdit() {
-		Ingredients.update(this.props.ingredient._id, {
-			$set: {
-				editing: false,
-			}
-		});
+		Meteor.call('ingredients.toggleEditIngr', this.props.ingredient._id, false);
 	}
 }

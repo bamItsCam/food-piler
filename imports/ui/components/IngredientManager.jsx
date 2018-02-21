@@ -44,24 +44,7 @@ class IngredientManager extends Component {
 	}
 
 	addNewBlankIngredient() {
-		Ingredients.insert({
-			ingrName: '',
-			ingrDesc: '',
-			ingrSpicy: '',
-			ingrSweet: '',
-			ingrSalty: '',
-			ingrFlex: '',
-			isBase: false,
-			isFiller: false,
-			isTopping: false,
-			isVege: false,
-			isVegan: false,
-			isGF: false,
-			editing: true,
-			ownerId: Meteor.userId(),
-			username: Meteor.user().username,
-			createdAt: new Date(),
-		});
+		Meteor.call('ingredients.addNewBlankIngredient');
 	}
 
 	renderAddButton() {
@@ -97,6 +80,7 @@ class IngredientManager extends Component {
 }
 
 export default withTracker(() => {
+	Meteor.subscribe('ingredients');
 	return {
 		ingredients: Ingredients.find({}, { sort: { createdAt: -1 } }).fetch(),
 		currentUser: Meteor.user(),
