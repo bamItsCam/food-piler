@@ -1,6 +1,6 @@
 @echo off
 if "%~1"=="" (
-    echo Pleas provide a mongodb password.
+    echo Please provide a mongodb password.
     goto end
 ) 
 
