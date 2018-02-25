@@ -1,4 +1,3 @@
-/* CSS declarations go here */
 @import "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css";
 @import "https://use.fontawesome.com/releases/v5.0.6/css/all.css";
 
@@ -33,7 +32,7 @@ table {
 }
 
 .table-bool {
-	width: 5%
+	width: 5%;
 	min-width: 50px;
 	max-width: 70px;
 }
