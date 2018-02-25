@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 
 import IngredientTag from './IngredientTag.js';
 import { Ingredients } from '../../api/ingredients.js';
-import Account from './Account.jsx'
+import NavBar from './Nav.jsx';
 
 // App component - represents the whole app
 class IngredientManager extends Component {
@@ -28,52 +28,54 @@ class IngredientManager extends Component {
 
 	render() {
 		return (
-			<div className="container">
-				<header>
-					<h1>Admin</h1>
-				</header>
-				<Account/>
-				<div className="box">
-					<div className="columns is-centered">
-						<div className="tags">
-							<div className={this.state.gfCheck ? "tag is-medium is-primary" : "tag is-medium is-light"}>
-								<input type="checkbox" ref="BadGluten" onClick={this.toggleCheck.bind(this,'gfCheck')}></input>
-								<p>Gluten-free</p>
-							</div>
-							<div className={this.state.dfGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
-								<input type="checkbox" ref="BadDairy" onClick={this.toggleCheck.bind(this,'dfCheck')}></input>
-								<p>Dairy-free</p>
-							</div>
-							<div className={this.state.efGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
-								<input type="checkbox" ref="BadEgg" onClick={this.toggleCheck.bind(this,'efCheck')}></input>
-								<p>Egg-free</p>
-							</div>
-							<div className={this.state.veganGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
-								<input type="checkbox" ref="SuperVeggie" onClick={this.toggleCheck.bind(this,'veganCheck')}></input>
-								<p>Vegan</p>
-							</div>
-							<div className={this.state.veggieGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
-								<input type="checkbox" ref="Veggie" onClick={this.toggleCheck.bind(this,'veggieCheck')}></input>
-								<p>Vegetarian</p>
-							</div>
-							<div className={this.state.fishGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
-								<input type="checkbox" ref="Fishy" onClick={this.toggleCheck.bind(this,'fishCheck')}></input>
-								<p>Pescetarian</p>
+			<div>
+				<NavBar/>
+				<div className="container">
+					<header>
+						<h1>Admin</h1>
+					</header>
+					<div className="box">
+						<div className="columns is-centered">
+							<div className="tags">
+								<div className={this.state.veganGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
+									<input type="checkbox" ref="SuperVeggie" onClick={this.toggleCheck.bind(this,'veganCheck')}></input>
+									<p>Vegan</p>
+								</div>
+								<div className={this.state.veggieGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
+									<input type="checkbox" ref="Veggie" onClick={this.toggleCheck.bind(this,'veggieCheck')}></input>
+									<p>Vegetarian</p>
+								</div>
+								<div className={this.state.fishGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
+									<input type="checkbox" ref="Fishy" onClick={this.toggleCheck.bind(this,'fishCheck')}></input>
+									<p>Pescetarian</p>
+								</div>
+								<div className={this.state.gfCheck ? "tag is-medium is-primary" : "tag is-medium is-light"}>
+									<input type="checkbox" ref="BadGluten" onClick={this.toggleCheck.bind(this,'gfCheck')}></input>
+									<p>Gluten-free</p>
+								</div>
+								<div className={this.state.dfGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
+									<input type="checkbox" ref="BadDairy" onClick={this.toggleCheck.bind(this,'dfCheck')}></input>
+									<p>Dairy-free</p>
+								</div>
+								<div className={this.state.efGrey ? "tag is-medium is-primary" : "tag is-medium is-light"}>
+									<input type="checkbox" ref="BadEgg" onClick={this.toggleCheck.bind(this,'efCheck')}></input>
+									<p>Egg-free</p>
+								</div>
 							</div>
 						</div>
 					</div>
+					<table className="table is-hoverable">
+						<thead>
+							{this.renderTableHeadFoot(true)}
+						</thead>
+						<tbody>
+							{this.renderIngredients()}
+						</tbody>
+						<tfoot>
+							{this.renderTableHeadFoot(false)}
+						</tfoot>
+					</table>
 				</div>
-				<table className="table is-hoverable">
-					<thead>
-						{this.renderTableHeadFoot(true)}
-					</thead>
-					<tbody>
-						{this.renderIngredients()}
-					</tbody>
-					<tfoot>
-						{this.renderTableHeadFoot(false)}
-					</tfoot>
-				</table>
 			</div>
 		);
 	}
@@ -126,9 +128,12 @@ class IngredientManager extends Component {
 				<th className="table-bool">Base</th>
 				<th className="table-bool"><abbr title="Filler">Fill</abbr></th>
 				<th className="table-bool"><abbr title="Topping">Top</abbr></th>
-				<th className="table-bool"><abbr title="Vegetarian">Vege</abbr></th>
-				<th className="table-bool"><abbr title="Vegan">Veg</abbr></th>
+				<th className="table-bool"><abbr title="Vegetarian">Veggie</abbr></th>
+				<th className="table-bool"><abbr title="Vegan">Vegan</abbr></th>
+				<th className="table-bool"><abbr title="Pescetarian">Pesc</abbr></th>
 				<th className="table-bool"><abbr title="Gluten Free">GF</abbr></th>
+				<th className="table-bool"><abbr title="Dairy Free">DF</abbr></th>
+				<th className="table-bool"><abbr title="Egg Free">EF</abbr></th>
 				<th className="table-one-button"></th>
 			</tr>
 			)

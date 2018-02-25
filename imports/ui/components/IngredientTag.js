@@ -36,52 +36,76 @@ export default class IngredientTag extends Component {
 					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrFlexInline" defaultValue={this.props.ingredient.ingrFlex}/></td>
 					<td>
 						<input
-	          type="checkbox"
-	          readOnly
-	          checked={!!this.props.ingredient.isBase}
-	          onClick={this.toggleCheck.bind(this, 'isBase', !this.props.ingredient.isBase)}
-		        />
-        	</td>
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isBase}
+						onClick={this.toggleCheck.bind(this, 'isBase', !this.props.ingredient.isBase)}
+						/>
+					</td>
 					<td>
 						<input
-	          type="checkbox"
-	          readOnly
-	          checked={!!this.props.ingredient.isFiller}
-	          onClick={this.toggleCheck.bind(this, 'isFiller', !this.props.ingredient.isFiller)}
-		        />
-        	</td>
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isFiller}
+						onClick={this.toggleCheck.bind(this, 'isFiller', !this.props.ingredient.isFiller)}
+						/>
+					</td>
 					<td>
 						<input
-	          type="checkbox"
-	          readOnly
-	          checked={!!this.props.ingredient.isTopping}
-	          onClick={this.toggleCheck.bind(this, 'isTopping', !this.props.ingredient.isTopping)}
-		        />
-        	</td>
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isTopping}
+						onClick={this.toggleCheck.bind(this, 'isTopping', !this.props.ingredient.isTopping)}
+						/>
+					</td>
 					<td>
 						<input
-	          type="checkbox"
-	          readOnly
-	          checked={!!this.props.ingredient.isVege}
-	          onClick={this.toggleCheck.bind(this, 'isVege', !this.props.ingredient.isVege)}
-		        />
-        	</td>
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isVeggie}
+						onClick={this.toggleCheck.bind(this, 'isVeggie', !this.props.ingredient.isVeggie)}
+						/>
+					</td>
 					<td>
 						<input
-	          type="checkbox"
-	          readOnly
-	          checked={!!this.props.ingredient.isVegan}
-	          onClick={this.toggleCheck.bind(this, 'isVegan', !this.props.ingredient.isVegan)}
-		        />
-        	</td>
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isVegan}
+						onClick={this.toggleCheck.bind(this, 'isVegan', !this.props.ingredient.isVegan)}
+						/>
+					</td>
 					<td>
 						<input
-	          type="checkbox"
-	          readOnly
-	          checked={!!this.props.ingredient.isGF}
-	          onClick={this.toggleCheck.bind(this, 'isGF', !this.props.ingredient.isGF)}
-		        />
-        	</td>
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isPesc}
+						onClick={this.toggleCheck.bind(this, 'isPesc', !this.props.ingredient.isPesc)}
+						/>
+					</td>
+					<td>
+						<input
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isGF}
+						onClick={this.toggleCheck.bind(this, 'isGF', !this.props.ingredient.isGF)}
+						/>
+					</td>
+					<td>
+						<input
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isDF}
+						onClick={this.toggleCheck.bind(this, 'isDF', !this.props.ingredient.isDF)}
+						/>
+					</td>
+					<td>
+						<input
+						type="checkbox"
+						readOnly
+						checked={!!this.props.ingredient.isEF}
+						onClick={this.toggleCheck.bind(this, 'isEF', !this.props.ingredient.isEF)}
+						/>
+					</td>
 					<td>
 						<a className="button is-danger is-outlined" onClick={this.deleteIngr.bind(this)}>
 							<span className="icon is-small">
@@ -113,9 +137,12 @@ export default class IngredientTag extends Component {
 					<td>{(this.props.ingredient.isBase) ? 'yes' : 'no'}</td>
 					<td>{(this.props.ingredient.isFiller) ? 'yes' : 'no'}</td>
 					<td>{(this.props.ingredient.isTopping) ? 'yes' : 'no'}</td>
-					<td>{(this.props.ingredient.isVege) ? 'yes' : 'no'}</td>
+					<td>{(this.props.ingredient.isVeggie) ? 'yes' : 'no'}</td>
 					<td>{(this.props.ingredient.isVegan) ? 'yes' : 'no'}</td>
+					<td>{(this.props.ingredient.isPesc) ? 'yes' : 'no'}</td>
 					<td>{(this.props.ingredient.isGF) ? 'yes' : 'no'}</td>
+					<td>{(this.props.ingredient.isDF) ? 'yes' : 'no'}</td>
+					<td>{(this.props.ingredient.isEF) ? 'yes' : 'no'}</td>
 					<td>
 						<a className="button is-danger is-outlined" onClick={this.deleteIngr.bind(this)}>
 							<span className="icon is-small">

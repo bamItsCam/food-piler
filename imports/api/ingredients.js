@@ -89,7 +89,7 @@ Meteor.methods({
 			isBase: false,
 			isFiller: false,
 			isTopping: false,
-			isVege: false,
+			isVeggie: false,
 			isVegan: false,
 			isGF: false,
 			isDF: false,
