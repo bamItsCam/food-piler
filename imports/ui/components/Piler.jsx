@@ -10,23 +10,24 @@ import DietFilters from './DietFilters.jsx';
 class Piler extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-        dietFilters : null
+    this.state = {
+        dietFilters : {
+					gfCheck: false,
+					dfCheck: false,
+					efCheck: false,
+					veganCheck: false,
+					veggieCheck: false,
+					fishCheck: false
+				},
       };
 	}
 
-	toggleCheck(varName) {
-		const current_state = this.state[varName];
-		this.setState({[varName] : !current_state});
-	}
-
   dietFiltersCallback = (stateFromChild) => {
-    this.setState({ dietFilters: stateFromChild });
+		this.setState({ dietFilters : stateFromChild });
   }
 
 	render() {
 		return (
-<<<<<<< HEAD
 			<div>
 				<NavBar/>
 				<div className="container has-text-centered">
@@ -36,37 +37,9 @@ class Piler extends Component {
 						</h3>
 						<div className="box">
 							<form>
-								<div className="box">
-									<h3 className="subtitle has-text-grey">1: Select your <b>dietary preferences</b></h3><br></br>
-									<div className="columns is-centered">
-										<div className="tags">
-											<div className={this.state.gfGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
-												<input type="checkbox" ref="BadGluten" onClick={this.toggleCheck.bind(this,'gfGrey')}></input>
-												<p>Gluten-free</p>
-											</div>
-											<div className={this.state.dfGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
-												<input type="checkbox" ref="BadDairy" onClick={this.toggleCheck.bind(this,'dfGrey')}></input>
-												<p>Dairy-free</p>
-											</div>
-											<div className={this.state.efGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
-												<input type="checkbox" ref="BadEgg" onClick={this.toggleCheck.bind(this,'efGrey')}></input>
-												<p>Egg-free</p>
-											</div>
-											<div className={this.state.veganGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
-												<input type="checkbox" ref="SuperVeggie" onClick={this.toggleCheck.bind(this,'veganGrey')}></input>
-												<p>Vegan</p>
-											</div>
-											<div className={this.state.veggieGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
-												<input type="checkbox" ref="Veggie" onClick={this.toggleCheck.bind(this,'veggieGrey')}></input>
-												<p>Vegetarian</p>
-											</div>
-											<div className={this.state.fishGrey ? "tag is-medium is-light" : "tag is-medium is-primary"}>
-												<input type="checkbox" ref="Fishy" onClick={this.toggleCheck.bind(this,'fishGrey')}></input>
-												<p>Pescetarian</p>
-											</div>
-										</div>
-									</div>
-								</div>
+								<DietFilters
+									callbackFromParent={this.dietFiltersCallback}
+									dietFilters={this.state.dietFilters}/>
 								<div className="box">
 									<h3 className="subtitle has-text-grey">2: Select your <b>riskiness level</b></h3>
 									<div className="columns is-centered">
@@ -77,27 +50,8 @@ class Piler extends Component {
 												railStyle={{height:10}}/>
 											</div>
 									</div>
-=======
-			<div className="container has-text-centered">
-				<div className="column is-10 is-offset-1">
-					<h3 className="title has-text-grey">
-						We have compilers for <span style={{fontFamily:'courier'}}>&lt;code&gt;</span>, why not for <span style={{color:'turquoise'}}>food</span>?
-					</h3>
-					<div className="box">
-						<form>
-							<DietFilters callbackFromParent={this.dietFiltersCallback}/>
-							<div className="box">
-								<h3 className="subtitle has-text-grey">2: Select your <b>riskiness level</b></h3>
-								<div className="columns is-centered">
-									<div className="column is-5">
-										<Slider
-											trackStyle={{backgroundColor:'turquoise',height:10}}
-											handleStyle={{borderColor:'turquoise',height:20,width:20}}
-											railStyle={{height:10}}/>
-										</div>
->>>>>>> 5de17f6dd8e58e474d914722260871759c107dae
+									<a className="button is-block is-info is-large">Pile it!</a>
 								</div>
-								<a className="button is-block is-info is-large">Pile it!</a>
 							</form>
 						</div>
 					</div>

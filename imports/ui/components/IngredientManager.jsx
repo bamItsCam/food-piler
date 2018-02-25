@@ -2,53 +2,57 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-
-<<<<<<< HEAD
 import IngredientTag from './IngredientTag.js';
-import { Ingredients } from '../../api/ingredients.js';
-import NavBar from './Nav.jsx';
-=======
-
 import { Ingredients } from '../../api/ingredients.jsx';
+import NavBar from './Nav.jsx';
 import Account from './Account.jsx'
-import IngredientTag from './IngredientTag.jsx';
 import DietFilters from './DietFilters.jsx';
->>>>>>> 5de17f6dd8e58e474d914722260871759c107dae
 
 // App component - represents the whole app
 class IngredientManager extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        dietFilters : null
+        dietFilters : {
+					gfCheck: false,
+					dfCheck: false,
+					efCheck: false,
+					veganCheck: false,
+					veggieCheck: false,
+					fishCheck: false
+				},
       };
   }
 
 	render() {
 		return (
-			<div className="container">
-				<header>
-					<h1>Admin</h1>
-				</header>
-				<Account/>
-				<DietFilters callbackFromParent={this.dietFiltersCallback}/>
-				<table className="table is-hoverable">
-					<thead>
-						{this.renderTableHeadFoot(true)}
-					</thead>
-					<tbody>
-						{this.renderIngredients()}
-					</tbody>
-					<tfoot>
-						{this.renderTableHeadFoot(false)}
-					</tfoot>
-				</table>
+			<div>
+				<NavBar/>
+				<div className="container">
+					<header>
+						<h1>Admin</h1>
+					</header>
+					<DietFilters
+						callbackFromParent={this.dietFiltersCallback}
+						dietFilters={this.state.dietFilters}/>
+					<table className="table is-hoverable">
+						<thead>
+							{this.renderTableHeadFoot(true)}
+						</thead>
+						<tbody>
+							{this.renderIngredients()}
+						</tbody>
+						<tfoot>
+							{this.renderTableHeadFoot(false)}
+						</tfoot>
+					</table>
+				</div>
 			</div>
 		);
 	}
 
   dietFiltersCallback = (stateFromChild) => {
-        this.setState({ dietFilters: stateFromChild });
+		this.setState({ dietFilters : stateFromChild });
   }
 
 	isFiltered(ingredient) {
@@ -56,7 +60,7 @@ class IngredientManager extends Component {
 				(this.state.dietFilters.dfCheck && ingredient.isDF) ||
 				(this.state.dietFilters.efCheck && ingredient.isEF) ||
 				(this.state.dietFilters.veganCheck && ingredient.isVegan) ||
-				(this.state.dietFilters.veggieCheck && ingredient.isVege) ||
+				(this.state.dietFilters.veggieCheck && ingredient.isVeggie) ||
 				(this.state.dietFilters.fishCheck && ingredient.isPesc)) ||
 				(!this.state.dietFilters.gfCheck && !this.state.dietFilters.dfCheck &&
           !this.state.dietFilters.efCheck && !this.state.dietFilters.veganCheck &&
@@ -71,6 +75,7 @@ class IngredientManager extends Component {
 				key={ingredient._id}
 				ingredient={ingredient}
 			/>));
+		console.log(this.state.dietFilters);
 	}
 
 	addNewBlankIngredient() {

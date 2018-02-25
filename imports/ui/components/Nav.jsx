@@ -4,33 +4,33 @@ import Account from './Account.jsx'
 export default class NavBar extends Component {
 	render() {
 		return (
-			<nav class="navbar is-light topNav">
-				<div class="container">
-					<div class="navbar-brand">
-						<a class="navbar-item" href="/">
+			<nav className="navbar is-light topNav">
+				<div className="container">
+					<div className="navbar-brand">
+						<a className="navbar-item" href="/">
 							FoodPiler
 						</a>
 					</div>
 
-					<div id="topNav" class="navbar-menu">
-						<div class="navbar-start">
-							<a class="navbar-item" href="/piler">
+					<div id="topNav" className="navbar-menu">
+						<div className="navbar-start">
+							<a className="navbar-item" href="/piler">
 								Start Pilin'
 							</a>
-							<a class="navbar-item" href="/admin">
+							<a className="navbar-item" href="/admin">
 								Admin
 							</a>
 						</div>
-						<div class="navbar-end">
-							<a class="navbar-item" href="/">
+						<div className="navbar-end">
+							<a className="navbar-item" href="/">
 								About
 							</a>
-							<div class="navbar-item">
-								<div class="field">
-									<p class="control">
-										<a class="button is-small is-info">
-											<span class="icon">
-												<i class="fa fa-user"></i>
+							<div className="navbar-item">
+								<div className="field">
+									<p className="control">
+										<a className="button is-small is-info">
+											<span className="icon">
+												<i className="fa fa-user"></i>
 											</span>
 											<Account/>
 										</a>
