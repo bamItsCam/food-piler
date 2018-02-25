@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-import IngredientTag from './IngredientTag.js';
+
 import { Ingredients } from '../../api/ingredients.jsx';
-import NavBar from './Nav.jsx';
-import Account from './Account.jsx'
-import DietFilters from './DietFilters.jsx';
+
+import NavBar from '../components/Nav.jsx';
+import Account from '../components/Account.jsx'
+import DietFilters from '../components/DietFilters.jsx';
+import IngredientTag from '../components/IngredientTag.jsx';
 
 // App component - represents the whole app
-class IngredientManager extends Component {
+class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +36,8 @@ class IngredientManager extends Component {
 					</header>
 					<DietFilters
 						callbackFromParent={this.dietFiltersCallback}
-						dietFilters={this.state.dietFilters}/>
+						dietFilters={this.state.dietFilters}
+					/>
 					<table className="table is-hoverable">
 						<thead>
 							{this.renderTableHeadFoot(true)}
@@ -63,8 +66,8 @@ class IngredientManager extends Component {
 				(this.state.dietFilters.veggieCheck && ingredient.isVeggie) ||
 				(this.state.dietFilters.fishCheck && ingredient.isPesc)) ||
 				(!this.state.dietFilters.gfCheck && !this.state.dietFilters.dfCheck &&
-          !this.state.dietFilters.efCheck && !this.state.dietFilters.veganCheck &&
-          !this.state.dietFilters.veggieCheck && !this.state.dietFilters.fishCheck);
+					!this.state.dietFilters.efCheck && !this.state.dietFilters.veganCheck &&
+					!this.state.dietFilters.veggieCheck && !this.state.dietFilters.fishCheck);
 	}
 
 	renderIngredients() {
@@ -123,4 +126,4 @@ export default withTracker(() => {
 		ingredients: Ingredients.find({}, { sort: { createdAt: -1 } }).fetch(),
 		currentUser: Meteor.user(),
 	};
-})(IngredientManager);
+})(Admin);

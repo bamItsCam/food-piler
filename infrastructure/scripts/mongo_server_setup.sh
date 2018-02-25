@@ -28,10 +28,10 @@ cp /etc/mongod.conf /etc/mongod.conf.old
 # Enable mongo auth
 echo "
 security:
-   authorization: \"enabled\"" | tee -a /etc/mongod.conf
+	 authorization: \"enabled\"" | tee -a /etc/mongod.conf
 
 # Enable mongo for all interfaces
-sed -i 's/.*bind/#  bind/' /etc/mongod.conf
+sed -i 's/.*bind/#	bind/' /etc/mongod.conf
 
 # add the mongo admin user
 mongo_statement="db.createUser({user:'admin', pwd:'${MONGO_PWD}',roles:['readWrite','dbAdmin']})"

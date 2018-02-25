@@ -9,8 +9,11 @@ export default class NotFound extends Component {
 		return(
 			<div className="container">
 				<header>
-					<h1>404</h1>
+					404
 				</header>
+				<body>
+					<h1>404</h1>
+				</body>
 			</div>
 			);
 	}
