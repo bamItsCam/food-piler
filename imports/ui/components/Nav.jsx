@@ -6,15 +6,9 @@ export default class NavBar extends Component {
 		return (
 			<nav className="navbar is-light topNav">
 				<div className="container">
-					<div className="navbar-brand">
-						<a className="navbar-item" href="/">
-							FoodPiler
-						</a>
-					</div>
-
 					<div id="topNav" className="navbar-menu">
 						<div className="navbar-start">
-							<a className="navbar-item" href="/piler">
+							<a className="navbar-item" href="/">
 								Start Pilin'
 							</a>
 							<a className="navbar-item" href="/admin">

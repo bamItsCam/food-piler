@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ "$#" -ne 1 ]; then
-    echo "Please provide a single argument (a mongodb passwrod)"
-    exit 1
+	echo "Please provide a single argument (a mongodb passwrod)"
+	exit 1
 fi
 
 echo "Running meteor with external mongodb..."

@@ -1,7 +1,7 @@
 @echo off
 if "%~1"=="" (
-    echo Please provide a mongodb password.
-    goto end
+	echo Please provide a mongodb password.
+	goto end
 ) 
 
 echo Running meteor with external mongo db...
