@@ -1,32 +1,32 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Slider, { Range, createSliderWithTooltip } from 'rc-slider';
-import NavBar from './Nav.jsx';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Ingredients } from '../../api/ingredients.jsx';
 import 'rc-slider/assets/index.css';
-import DietFilters from './DietFilters.jsx';
+
+import { Ingredients } from '../../api/ingredients.jsx';
+
+import DietFilters from '../components/DietFilters.jsx';
+import NavBar from '../components/Nav.jsx';
+
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 
 class Piler extends Component {
 	constructor(props) {
 		super(props);
-    this.state = {
-        dietFilters : {
-					gfCheck: false,
-					dfCheck: false,
-					efCheck: false,
-					veganCheck: false,
-					veggieCheck: false,
-					fishCheck: false
-				},
-      };
 		var value = 50
-		this.state = {
-			dietFilters: null,
+    this.state = {
+      dietFilters : {
+				gfCheck: false,
+				dfCheck: false,
+				efCheck: false,
+				veganCheck: false,
+				veggieCheck: false,
+				fishCheck: false
+
+			},
 			sliderValue: value,
-			//sliderColor: rgb(2.55*{{value}},50,2.55*(100-{{value}})
 			sliderColor: "rgb("+Math.floor(2.55*value)+","+Math.floor(125-value)+","+Math.floor(2.55*(100-value))+")"
 		};
 	}
@@ -37,30 +37,35 @@ class Piler extends Component {
 
 	render() {
 		return (
-			<div className="container has-text-centered">
-				<div className="column is-10 is-offset-1">
-					<h3 className="title has-text-grey">
-						We have compilers for <span style={{fontFamily:'courier'}}>&lt;code&gt;</span>, why not for <span style={{color:'turquoise'}}>food</span>?
-					</h3>
-					<div className="box">
-						<form>
-							<DietFilters callbackFromParent={this.dietFiltersCallback}/>
-							<div className="box">
-								<h3 className="subtitle has-text-grey">2: Select your <b>riskiness level</b></h3>
-								<div className="columns is-centered">
-									<div className="column is-5" style={{paddingTop:24}}>
-										<SliderWithTooltip
-											tipFormatter={this.sliderTooltipGenerator}
-											value={this.state.sliderValue}
-											trackStyle={{backgroundColor:this.state.sliderColor,height:10}}
-											//handleStyle={{backgroundColor:this.state.sliderColor,height:20,width:20}}
-											onChange={this.onSliderChange}
-											onAfterChange={this.onAfterChange}
-										/>
-									</div>
 			<div>
 				<NavBar/>
+				<div className="container has-text-centered">
+					<div className="column is-10 is-offset-1">
+						<h3 className="title has-text-grey">
+							We have compilers for <span style={{fontFamily:'courier'}}>&lt;code&gt;</span>, why not for <span style={{color:'turquoise'}}>food</span>?
+						</h3>
+						<div className="box">
+							<form>
+								<DietFilters
+									callbackFromParent={this.dietFiltersCallback}
+									dietFilters={this.state.dietFilters}
+								/>
+								<div className="box">
+									<h3 className="subtitle has-text-grey">2: Select your <b>riskiness level</b></h3>
+									<div className="columns is-centered">
+										<div className="column is-5" style={{paddingTop:24}}>
+											<SliderWithTooltip
+												tipFormatter={this.sliderTooltipGenerator}
+												value={this.state.sliderValue}
+												trackStyle={{backgroundColor:this.state.sliderColor,height:10}}
+												//handleStyle={{backgroundColor:this.state.sliderColor,height:20,width:20}}
+												onChange={this.onSliderChange}
+												onAfterChange={this.onAfterChange}
+											/>
+										</div>					
+									</div>
 								</div>
+							</form>
 						</div>
 					</div>
 				</div>
