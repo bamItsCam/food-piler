@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import IngredientTag from './IngredientTag.js';
+import IngredientTag from './IngredientTag.jsx';
 
 // App component - represents the whole app
 export default class App extends Component {
