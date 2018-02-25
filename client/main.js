@@ -4,7 +4,7 @@ import { renderRoutes } from '../imports/startup/client/routes.jsx';
 import '../imports/startup/client/accounts-config.jsx';
 
 Meteor.startup(() => {
-  render(renderRoutes(), document.getElementById('render-target'));
+	render(renderRoutes(), document.getElementById('render-target'));
 });
 
 /*
@@ -17,8 +17,8 @@ import App from '../imports/ui/App.js';
 import IngredientManager from '../imports/ui/IngredientManager.js';
 
 Meteor.startup(() => {
-  //render(<App />, document.getElementById('render-target'));
-  render(<IngredientManager />, document.getElementById('render-target'));
+	//render(<App />, document.getElementById('render-target'));
+	render(<IngredientManager />, document.getElementById('render-target'));
 
 });
 */

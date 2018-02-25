@@ -63,8 +63,8 @@ class IngredientManager extends Component {
 				(this.state.dietFilters.veggieCheck && ingredient.isVeggie) ||
 				(this.state.dietFilters.fishCheck && ingredient.isPesc)) ||
 				(!this.state.dietFilters.gfCheck && !this.state.dietFilters.dfCheck &&
-          !this.state.dietFilters.efCheck && !this.state.dietFilters.veganCheck &&
-          !this.state.dietFilters.veggieCheck && !this.state.dietFilters.fishCheck);
+					!this.state.dietFilters.efCheck && !this.state.dietFilters.veganCheck &&
+					!this.state.dietFilters.veggieCheck && !this.state.dietFilters.fishCheck);
 	}
 
 	renderIngredients() {
