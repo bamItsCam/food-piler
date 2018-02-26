@@ -32,7 +32,6 @@ class Admin extends Component {
 				<NavBar/>
 				<div className="container">
 					<header>
-						<h1>Admin</h1>
 					</header>
 					<DietFilters
 						callbackFromParent={this.dietFiltersCallback}
@@ -121,7 +120,7 @@ class Admin extends Component {
 }
 
 export default withTracker(() => {
-	Meteor.subscribe('ingredients');
+	Meteor.subscribe('adminIngredients');
 	return {
 		ingredients: Ingredients.find({}, { sort: { createdAt: -1 } }).fetch(),
 		currentUser: Meteor.user(),

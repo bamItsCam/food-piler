@@ -65,6 +65,9 @@ class Piler extends Component {
 										</div>					
 									</div>
 								</div>
+								<a className="button is-block is-info is-large" onClick={this.pileIt.bind(this)}>
+									Pile It!
+								</a>
 							</form>
 						</div>
 					</div>
@@ -78,7 +81,6 @@ class Piler extends Component {
 	}
 
 	sliderTooltipGenerator(value) {
-		console.log("I'm hit! "+value);
 		if (value < 20) return "Playin it safe";
 		else if (value < 40) return "Ok ok ok";
 		else if (value < 60) return "Whoa there";
@@ -88,7 +90,6 @@ class Piler extends Component {
 
 	onSliderChange = (value) => {
 		var colVal = "rgb("+Math.floor(2.55*value)+","+Math.floor(125-value)+","+Math.floor(2.55*(100-value))+")";
-		console.log("color: "+colVal);
 		this.setState({ 
 			sliderValue: value,
 			//sliderColor: 'rgb(2.55*{{value}},50,2.55*(100-{{value}})'
@@ -97,7 +98,7 @@ class Piler extends Component {
 	}
 
 	onAfterChange = (value) => {
-		console.log("After change: "+value); //eslint-disable-line
+
 	}
 
 }

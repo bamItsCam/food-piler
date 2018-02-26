@@ -11,7 +11,6 @@ export default class IngredientTag extends Component {
 	renderOrEditField() {
 		if( this.props.ingredient.editing ) {
 			// if this is the row we should be editing, then return the input boxes
-			console.log("editing!");
 			return (
 				<tr>
 					<td>
@@ -118,7 +117,6 @@ export default class IngredientTag extends Component {
 		}
 		else {
 			// simply render the table row
-			console.log("not editing");
 			return (
 				<tr>
 					<td>
