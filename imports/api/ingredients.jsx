@@ -5,6 +5,10 @@ import { check } from 'meteor/check';
 export const Ingredients = new Mongo.Collection('ingredients');
 
 if(Meteor.isServer) {
+	Meteor.publish('adminIngredients', function adminIngredientsPublication() {
+		return Ingredients.find({ownerId: this.userId});
+	})
+
 	Meteor.publish('ingredients', function ingredientsPublication() {
 		return Ingredients.find();
 	})
@@ -16,7 +20,8 @@ Meteor.methods({
 		check(checkboxName, String);
 		check(newCheckboxState, Boolean);
 
-		if(Meteor.user() == null || Meteor.user().username != "admin") {
+		ingrForUserCheck = Ingredients.findOne(ingredientId);
+		if(Meteor.userId() == null || Meteor.userId() != ingrForUserCheck.ownerId) {
 			throw new Meteor.Error('not-authorized');
 		}
 
@@ -36,7 +41,8 @@ Meteor.methods({
 		check(ingrSalty, String);
 		check(ingrFlex, String);
 
-		if(Meteor.user() == null || Meteor.user().username != "admin") {
+		ingrForUserCheck = Ingredients.findOne(ingredientId);
+		if(Meteor.userId() == null || Meteor.userId() != ingrForUserCheck.ownerId) {
 			throw new Meteor.Error('not-authorized');
 		}
 
@@ -55,7 +61,8 @@ Meteor.methods({
 	'ingredients.deleteIngr'(ingredientId) {
 		check(ingredientId, String);
 
-		if(Meteor.user() == null || Meteor.user().username != "admin") {
+		ingrForUserCheck = Ingredients.findOne(ingredientId);
+		if(Meteor.userId() == null || Meteor.userId() != ingrForUserCheck.ownerId) {
 			throw new Meteor.Error('not-authorized');
 		}
 
@@ -65,7 +72,8 @@ Meteor.methods({
 		check(ingredientId, String);
 		check(editingState, Boolean);
 
-		if(Meteor.user() == null || Meteor.user().username != "admin") {
+		ingrForUserCheck = Ingredients.findOne(ingredientId);
+		if(Meteor.userId() == null || Meteor.userId() != ingrForUserCheck.ownerId) {
 			throw new Meteor.Error('not-authorized');
 		}
 
@@ -75,6 +83,8 @@ Meteor.methods({
 			}
 		});
 	},
+	// note that "admin" must be hard coded here since there is no guarantee that a previous ingredient
+	// that is owned by admin exists, so no check can be used by polling the mongo db for a username/id
 	'ingredients.addNewBlankIngredient'() {
 		if(Meteor.user() == null || Meteor.user().username != "admin") {
 			throw new Meteor.Error('not-authorized');
