@@ -32,13 +32,10 @@ Meteor.methods({
 			}
 		});
 	},
-	'ingredients.submitIngrText'(ingredientId, ingrName, ingrDesc, ingrSpicy, ingrSweet, ingrSalty, ingrFlex) {
+	'ingredients.submitIngrText'(ingredientId, ingrName, ingrDesc, ingrFlex) {
 		check(ingredientId, String);
 		check(ingrName, String);
 		check(ingrDesc, String);
-		check(ingrSpicy, String);
-		check(ingrSweet, String);
-		check(ingrSalty, String);
 		check(ingrFlex, String);
 
 		ingrForUserCheck = Ingredients.findOne(ingredientId);
@@ -50,9 +47,6 @@ Meteor.methods({
 			$set: {
 				ingrName: ingrName,
 				ingrDesc: ingrDesc,
-				ingrSpicy: ingrSpicy,
-				ingrSweet: ingrSweet,
-				ingrSalty: ingrSalty,
 				ingrFlex: ingrFlex,
 				editing: false,
 			}
@@ -83,8 +77,9 @@ Meteor.methods({
 			}
 		});
 	},
+
 	// note that "admin" must be hard coded here since there is no guarantee that a previous ingredient
-	// that is owned by admin exists, so no check can be used by polling the mongo db for a username/id
+	// that is owned by admin exists, so no check can be used by polling the mongo db for an existing username/id
 	'ingredients.addNewBlankIngredient'() {
 		if(Meteor.user() == null || Meteor.user().username != "admin") {
 			throw new Meteor.Error('not-authorized');
@@ -92,9 +87,6 @@ Meteor.methods({
 		Ingredients.insert({
 			ingrName: '',
 			ingrDesc: '',
-			ingrSpicy: '',
-			ingrSweet: '',
-			ingrSalty: '',
 			ingrFlex: '',
 			isBase: false,
 			isFiller: false,
@@ -106,6 +98,31 @@ Meteor.methods({
 			isEF: false,
 			isPesc: false,
 			editing: true,
+			ownerId: Meteor.userId(),
+			username: Meteor.user().username,
+			createdAt: new Date(),
+		});
+	},
+
+	'ingredients.insertImportedData'(i) {
+		if(Meteor.user() == null || Meteor.user().username != "admin") {
+			throw new Meteor.Error('not-authorized');
+		}
+		existingIngr = Ingredients.findOne(i.ingrName);
+		Ingredients.insert({
+			ingrName: i.ingrName,
+			ingrDesc: i.ingrDesc,
+			ingrFlex: i.ingrFlex,
+			isBase: i.isBase,
+			isFiller: i.isFiller,
+			isTopping: i.isTopping,
+			isVeggie: i.isVeggie,
+			isVegan: i.isVegan,
+			isGF: i.isGF,
+			isDF: i.isDF,
+			isEF: i.isEF,
+			isPesc: i.isPesc,
+			editing: false,
 			ownerId: Meteor.userId(),
 			username: Meteor.user().username,
 			createdAt: new Date(),
