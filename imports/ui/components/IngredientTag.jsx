@@ -29,9 +29,6 @@ export default class IngredientTag extends Component {
 					</td>
 					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrNameInline" defaultValue={this.props.ingredient.ingrName}/></td>
 					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrDescInline" defaultValue={this.props.ingredient.ingrDesc}/></td>
-					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrSpicyInline" defaultValue={this.props.ingredient.ingrSpicy}/></td>
-					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrSweetInline" defaultValue={this.props.ingredient.ingrSweet}/></td>
-					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrSaltyInline" defaultValue={this.props.ingredient.ingrSalty}/></td>
 					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrFlexInline" defaultValue={this.props.ingredient.ingrFlex}/></td>
 					<td>
 						<input
@@ -128,9 +125,6 @@ export default class IngredientTag extends Component {
 					</td>
 					<td>{this.props.ingredient.ingrName}</td>
 					<td>{this.props.ingredient.ingrDesc}</td>
-					<td>{this.props.ingredient.ingrSpicy}</td>
-					<td>{this.props.ingredient.ingrSweet}</td>
-					<td>{this.props.ingredient.ingrSalty}</td>
 					<td>{this.props.ingredient.ingrFlex}</td>
 					<td>{(this.props.ingredient.isBase) ? 'yes' : 'no'}</td>
 					<td>{(this.props.ingredient.isFiller) ? 'yes' : 'no'}</td>
@@ -170,12 +164,9 @@ export default class IngredientTag extends Component {
 		// their state. This can be changed if not preferred
 		const ingrName = ReactDOM.findDOMNode(this.refs.ingrNameInline).value.trim();
 		const ingrDesc = ReactDOM.findDOMNode(this.refs.ingrDescInline).value.trim();
-		const ingrSpicy = ReactDOM.findDOMNode(this.refs.ingrSpicyInline).value.trim();
-		const ingrSweet = ReactDOM.findDOMNode(this.refs.ingrSweetInline).value.trim();
-		const ingrSalty = ReactDOM.findDOMNode(this.refs.ingrSaltyInline).value.trim();
 		const ingrFlex = ReactDOM.findDOMNode(this.refs.ingrFlexInline).value.trim();
 
-		Meteor.call('ingredients.submitIngrText', this.props.ingredient._id, ingrName, ingrDesc, ingrSpicy, ingrSweet, ingrSalty, ingrFlex);
+		Meteor.call('ingredients.submitIngrText', this.props.ingredient._id, ingrName, ingrDesc, ingrFlex);
 	}
 
 	deleteIngr() {
