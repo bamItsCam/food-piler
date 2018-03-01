@@ -36,16 +36,13 @@ export default class Upload extends Component {
 			<div className="file">
 			  <label className="file-label">
 			  	<form ref="upload">
-			    	<input className="file-input" type="file" name="foods" accept=".csv" onChange={this.handleImport}/>
-			    </form>
-			    <span className="file-cta">
-			      <span className="file-icon">
-			        <i className="fas fa-upload"></i>
-			      </span>
-			      <span className="file-label">
-			        Choose a file…
-			      </span>
-			    </span>
+			  		<a className="button is-info is-outlined">
+							<span className="icon is-small">
+								<i className="fas fa-upload"></i>
+							</span>
+						</a>
+			    	<input className="file-input" type="file" name="foods" accept=".csv" onChange={this.handleImport} style={{display:"none"}}/>
+			    </form> 
 			  </label>
 			</div>
 		);

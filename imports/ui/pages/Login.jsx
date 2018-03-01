@@ -7,56 +7,51 @@ import { Redirect } from 'react-router';
 import LoginRegisterForm from '../components/LoginRegisterForm.jsx';
 import NavBar from '../components/Nav.jsx';
 
-export default class Register extends Component {
+export default class Login extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			willRedirect: false,
-			preexistingUser: null, //If null, no preexisting user. If filled with username, then that user exists
+			submittedUser: null,
 		}
 		classThis = this; //this is a finicky thing. Make a reference so that we can use it in callbacks
 	}
 
-	registerUser() {
-		const newUsername = ReactDOM.findDOMNode(this.refs.username).value.trim();
-		const newPassword = ReactDOM.findDOMNode(this.refs.userPassword).value.trim();
-		Accounts.createUser(
-			{
-				username: newUsername,
-				password: newPassword
-			},
+	loginUser() {
+		const username = ReactDOM.findDOMNode(this.refs.username).value.trim();
+		const userPassword = ReactDOM.findDOMNode(this.refs.userPassword).value.trim();
+		Meteor.loginWithPassword(username, userPassword,
 			function(error) {
         if (error) {
-        	// Username already exists
-        	classThis.setPreexistingUser(newUsername);
+        	// user submitted wasn't found
+        	classThis.setSubmittedUser(username);
           console.log("there was an error: " + error.reason);
         } else { 
         	console.log("redirecting...")
-          classThis.setPreexistingUser(null);
+        	classThis.setSubmittedUser(null);
           //TODO: popup notif after redirect to home saying "Logged in!", or create user page that lets you change pwd or delete
         };
       }
-    );		
+    );
 	}
 
-	setPreexistingUser(user) {
-		classThis.setState({preexistingUser : user});
+	setSubmittedUser(user) {
+		classThis.setState({submittedUser : user});
 	}
 
 	clearNotif() {
-		classThis.setPreexistingUser(null);
+		classThis.setSubmittedUser(null);
 	}
 
-	renderUserExistsNotif() {
-		if (this.state.preexistingUser != null) return (
+	renderLoginErrorNotif() {
+		if (this.state.submittedUser != null) return (
 				<div className="notification is-warning">
 				  <button onClick={this.clearNotif.bind(this)} className="delete"></button>
-				  The user '{this.state.preexistingUser}' already exists, try <a href="/login">Signing in</a>.
+				  Whoops, couldn't login with that username and password, try <a href="/register">making an account</a>.
 				</div>
 			);
 	}
 
-	renderRedirectOrRegister() {
+	renderRedirectOrLogin() {
 		if (Meteor.user() != null && Meteor.user().username == "admin") return (
 			<Redirect to="/admin"/>
 		);
@@ -68,14 +63,14 @@ export default class Register extends Component {
 				<NavBar/>
 				<div className="columns is-centered">
 					<div className="column is-5">
-						<h1>Register</h1>
+						<h1>Login</h1>
 						<LoginRegisterForm
 							usernameClick={this.clearNotif}
-							submitButtonLabel="Register"
-							submitAction={this.registerUser}
+							submitButtonLabel="Login"
+							submitAction={this.loginUser}
 						/>
-						<p>Already have an account? <a href="/login">Sign in</a> here</p>
-						{this.renderUserExistsNotif()}
+						<p>Don't have an account? <a href="/register">Sign up</a> here</p>
+						{this.renderLoginErrorNotif()}
 					</div>
 				</div>
 			</div>
@@ -85,7 +80,7 @@ export default class Register extends Component {
 	render() {
 		return (
 			<div>
-				{classThis.renderRedirectOrRegister()}
+				{classThis.renderRedirectOrLogin()}
 			</div>
 		);
 	}

@@ -32,7 +32,6 @@ class Admin extends Component {
 		return (
 			<div>
 				<NavBar/>
-				<Upload/>
 				<div className="container">
 					<header>
 					</header>
@@ -87,20 +86,23 @@ class Admin extends Component {
 		Meteor.call('ingredients.addNewBlankIngredient');
 	}
 
-	renderAddButton() {
+	renderAddAndUploadButton() {
 		return (
-			<a className="button is-success" onClick={this.addNewBlankIngredient.bind(this)}>
-				<span className="icon is-small">
-					<i className="fas fa-plus"></i>
-				</span>
-			</a>
+			<div className="field is-grouped">
+				<a className="button is-success" onClick={this.addNewBlankIngredient.bind(this)}>
+					<span className="icon is-small">
+						<i className="fas fa-plus"></i>
+					</span>
+				</a>
+				<Upload/>
+			</div>
 		)
 	}
 
 	renderTableHeadFoot(isHead) {
 		return (
 			<tr>
-				<th className="table-two-buttons">{(isHead) ? this.renderAddButton() : ''}</th>
+				<th className="table-two-buttons">{(isHead) ? this.renderAddAndUploadButton() : ''}</th>
 				<th className="table-name">Name</th>
 				<th className="table-desc">Description</th>
 				<th className="table-number"><abbr title="Flexibility">Flex</abbr></th>
