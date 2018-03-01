@@ -11,10 +11,11 @@ export default class LoginRegisterForm extends Component {
 		return (
 			// submitAction is a function passed in by the parent. This action will either be a login or register command
 			// submitButtonLabel will also be passed in from the parent
+			// TODO: submit on enter press (look at ingredientTag for catching key #)
 			<div>
 				<div className="field">
 					<p className="control has-icons-left has-icons-right">
-						<input onClick={this.props.usernameClick} className="input is-success" type="text" ref="newUsername" placeholder="Username"/>
+						<input onClick={this.props.usernameClick} className="input is-success" type="text" ref="username" placeholder="Username"/>
 						<span className="icon is-small is-left">
 							<i className="fas fa-user"></i>
 						</span>
@@ -22,7 +23,7 @@ export default class LoginRegisterForm extends Component {
 				</div>
 				<div className="field">
 					<p className="control has-icons-left">
-						<input className="input" type="password" ref="newPassword" 	placeholder="Password"/>
+						<input className="input" type="password" ref="userPassword" 	placeholder="Password"/>
 						<span className="icon is-small is-left">
 							<i className="fas fa-lock"></i>
 						</span>
