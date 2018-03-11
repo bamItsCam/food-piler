@@ -108,20 +108,21 @@ Meteor.methods({
 		if(Meteor.user() == null || Meteor.user().username != "admin") {
 			throw new Meteor.Error('not-authorized');
 		}
+
 		existingIngr = Ingredients.findOne(i.ingrName);
 		Ingredients.insert({
 			ingrName: i.ingrName,
 			ingrDesc: i.ingrDesc,
 			ingrFlex: i.ingrFlex,
-			isBase: i.isBase,
-			isFiller: i.isFiller,
-			isTopping: i.isTopping,
-			isVeggie: i.isVeggie,
-			isVegan: i.isVegan,
-			isGF: i.isGF,
-			isDF: i.isDF,
-			isEF: i.isEF,
-			isPesc: i.isPesc,
+			isBase: (i.isBase.toLowerCase() == 'true'),
+			isFiller: (i.isFiller.toLowerCase() == 'true'),
+			isTopping: (i.isTopping.toLowerCase() == 'true'),
+			isVeggie: (i.isVeggie.toLowerCase() == 'true'),
+			isVegan: (i.isVegan.toLowerCase() == 'true'),
+			isGF: (i.isGF.toLowerCase() == 'true'),
+			isDF: (i.isDF.toLowerCase() == 'true'),
+			isEF: (i.isEF.toLowerCase() == 'true'),
+			isPesc: (i.isPesc.toLowerCase() == 'true'),
 			editing: false,
 			ownerId: Meteor.userId(),
 			username: Meteor.user().username,
