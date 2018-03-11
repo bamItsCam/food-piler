@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { withRouter } from 'react-router';
 
 export default class NavBar extends Component {
 	constructor(props) {
 		super(props);
+
+		this.state = { currentUser: undefined };
 	}
+
+	componentDidMount() {
+    Tracker.autorun(() => {
+    	// make sure the navbar exists before setting its state
+    	if (this.refs.navBar) {
+      	this.setState({ currentUser: Meteor.user() });
+    	}
+    });
+  }
+
 	render() {
 		return (
-			<nav className="navbar is-light topNav">
+			<nav ref="navBar" className="navbar is-light topNav">
 				<div className="container">
 					<div id="topNav" className="navbar-menu">
 						<div className="navbar-start">
@@ -19,6 +32,7 @@ export default class NavBar extends Component {
 							</a>
 						</div>
 						<div className="navbar-end">
+							{this.renderAdminButton()}
 							<div className="field navbar-item ">
 								{this.renderLoginOrLogoutButton()}
 							</div>
@@ -29,8 +43,8 @@ export default class NavBar extends Component {
 		);
 	}
 
-	showAdminNav() {
-		if (Meteor.user() != null && Meteor.user().username == "admin") return (
+	renderAdminButton() {
+		if (this.state.currentUser != null && this.state.currentUser.username == "admin") return (
 			<a className="navbar-item" href="/admin">
 				Admin
 			</a>
@@ -38,8 +52,7 @@ export default class NavBar extends Component {
 	}
 
 	renderLoginOrLogoutButton() {
-		console.log(Meteor.userId());
-		if(Meteor.userId() == null) return (
+		if(this.state.currentUser == null) return (
 			<a className="button is-small is-info" href="/login"> 
         <span className="icon"> 
           <i className="fa fa-user"></i> 
@@ -48,27 +61,17 @@ export default class NavBar extends Component {
       </a> 
 		);
 		else return (
-			<a className="button is-small is-info" onClick={this.logout.bind(this)}> 
-        <span className="icon"> 
-          <i className="fa fa-user"></i> 
-        </span>
-        <span>Logout</span>
-      </a> 
+			<div>
+				<span>
+					Hello {this.state.currentUser.username}!
+				</span>
+				<a className="button is-small is-info" href="/logout"> 
+	        <span className="icon"> 
+	          <i className="fa fa-user"></i> 
+	        </span>
+	        <span>Logout</span>
+	      </a>
+	     </div>
 		);
-	}
-	
-	logout() {
-		Meteor.logout(
-			function(error) {
-        if (error) {
-        	// user submitted wasn't found
-          console.log("there was an error: " + error.reason);
-        } else { 
-        	console.log("user has been logged out")
-        	this.props.history.push("/");
-          //TODO: popup notif after redirect to home saying "Logged in!", or create user page that lets you change pwd or delete
-        };
-      }
-    );		
 	}
 }
