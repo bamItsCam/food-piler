@@ -7,6 +7,13 @@ export default class LoginRegisterForm extends Component {
 		super(props);
 	}
 
+	handleSubmitWithEnter = (event) => {
+		// if keypress was enter key, submit
+		if( event.keyCode === 13 ) {
+			this.props.submitAction();
+		}
+	}
+
 	render() {
 		return (
 			// submitAction is a function passed in by the parent. This action will either be a login or register command
@@ -15,7 +22,7 @@ export default class LoginRegisterForm extends Component {
 			<div>
 				<div className="field">
 					<p className="control has-icons-left has-icons-right">
-						<input onClick={this.props.usernameClick} className="input is-success" type="text" ref="username" placeholder="Username"/>
+						<input className="input is-success" type="text" id="username" placeholder="Username" onClick={this.props.userInputClick} onKeyDown={this.handleSubmitWithEnter}/>
 						<span className="icon is-small is-left">
 							<i className="fas fa-user"></i>
 						</span>
@@ -23,7 +30,7 @@ export default class LoginRegisterForm extends Component {
 				</div>
 				<div className="field">
 					<p className="control has-icons-left">
-						<input className="input" type="password" ref="userPassword" 	placeholder="Password"/>
+						<input className="input" type="password" id="userPassword" placeholder="Password" onClick={this.props.userInputClick} onKeyDown={this.handleSubmitWithEnter}/>
 						<span className="icon is-small is-left">
 							<i className="fas fa-lock"></i>
 						</span>
