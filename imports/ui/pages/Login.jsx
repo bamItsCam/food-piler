@@ -17,8 +17,9 @@ export default class Login extends Component {
 	}
 
 	loginUser() {
-		const username = ReactDOM.findDOMNode(this.refs.username).value.trim();
-		const userPassword = ReactDOM.findDOMNode(this.refs.userPassword).value.trim();
+		// because react is stupid and refs and callbacks don't play nice, get by id
+		const username = document.getElementById("username").value.trim();
+		const userPassword = document.getElementById("userPassword").value.trim();
 		Meteor.loginWithPassword(username, userPassword,
 			function(error) {
         if (error) {
@@ -65,7 +66,7 @@ export default class Login extends Component {
 					<div className="column is-5">
 						<h1>Login</h1>
 						<LoginRegisterForm
-							usernameClick={this.clearNotif}
+							userInputClick={this.clearNotif}
 							submitButtonLabel="Login"
 							submitAction={this.loginUser}
 						/>

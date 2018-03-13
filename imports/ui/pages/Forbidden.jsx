@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 export default class Forbidden extends Component {
 
 	render() {
-		console.log("hello!");
+		console.log("Forbidden!");
 		// Just render a placeholder container that will be filled in
 		return(
 			<div className="container">
@@ -14,6 +14,6 @@ export default class Forbidden extends Component {
 				</header>
 					<h1>403</h1>
 			</div>
-			);
+		);
 	}
 }

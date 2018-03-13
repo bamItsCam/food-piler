@@ -9,13 +9,11 @@ export default class Upload extends Component {
 	}
 
 	handleImport = (event) => {
-		console.log("hit!");
 		file = event.target.files[0];
 		Papa.parse(file, {
 			complete(results, file) {
 				// successful parse, so insert data into mongo
 				results.data.forEach(function (ingredient) {
-					console.log(ingredient);
 					// check if the name is a word
 					if(/^[\w ]*$/.test(ingredient.ingrName)) {
 						Meteor.call('ingredients.insertImportedData', ingredient);

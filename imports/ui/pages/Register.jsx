@@ -18,8 +18,8 @@ export default class Register extends Component {
 	}
 
 	registerUser() {
-		const newUsername = ReactDOM.findDOMNode(this.refs.username).value.trim();
-		const newPassword = ReactDOM.findDOMNode(this.refs.userPassword).value.trim();
+		const newUsername = document.getElementById("username").value.trim();
+		const newPassword = document.getElementById("userPassword").value.trim();
 		Accounts.createUser(
 			{
 				username: newUsername,
@@ -70,7 +70,7 @@ export default class Register extends Component {
 					<div className="column is-5">
 						<h1>Register</h1>
 						<LoginRegisterForm
-							usernameClick={this.clearNotif}
+							userInputClick={this.clearNotif}
 							submitButtonLabel="Register"
 							submitAction={this.registerUser}
 						/>
