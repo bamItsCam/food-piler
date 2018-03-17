@@ -16,24 +16,23 @@ class Piler extends Component {
 	constructor(props) {
 		super(props);
 		var value = 50
-    this.state = {
-      dietFilters : {
+		this.state = {
+			dietFilters : {
 				gfCheck: false,
 				dfCheck: false,
 				efCheck: false,
 				veganCheck: false,
 				veggieCheck: false,
 				fishCheck: false
-
 			},
 			sliderValue: value,
 			sliderColor: "rgb("+Math.floor(2.55*value)+","+Math.floor(125-value)+","+Math.floor(2.55*(100-value))+")"
 		};
 	}
 
-  dietFiltersCallback = (stateFromChild) => {
+	dietFiltersCallback = (stateFromChild) => {
 		this.setState({ dietFilters : stateFromChild });
-  }
+	}
 
 	render() {
 		return (
@@ -77,7 +76,49 @@ class Piler extends Component {
 	}
 
 	pileIt() {
-		
+		// Generate a minimum flexibility for all ingredients based on the riskiness slider value.
+		var min_flex = this.state.sliderValue/10;
+
+		// Get the current states of the dietary restriction filters.
+		var current_filter_states = [
+			this.state.dietFilters.gfCheck,
+			this.state.dietFilters.dfCheck,
+			this.state.dietFilters.efCheck,
+			this.state.dietFilters.veggieCheck,
+			this.state.dietFilters.veganCheck,
+			this.state.dietFilters.fishCheck
+			];
+
+		// Check if all filters are unchecked.
+		var unfiltered = current_filter_states.every(function(f) { return f == false; });
+
+		// Get the set of ingredients that match the min_flex and dietary restrictions.
+		var available_ingredients = this.props.ingredients.filter(
+			function(ingr) {
+				var ingr_states = [ingr.isGF,ingr.isDF,ingr.isEF,ingr.isVeggie,ingr.isVegan,ingr.isPesc];
+
+				return ingr.ingrFlex >= min_flex &&
+					(unfiltered || current_filter_states.every((e,i)=> e === ingr_states[i] ));
+			}
+		);
+
+		// Select 5 ingredients that match the criteria.
+		var selected = this.selectIngredients(available_ingredients,5);
+		console.log(selected);
+	}
+
+	selectIngredients(ingrs,n) {
+		var selected = new Array(n);
+		var len = ingrs.length; 
+		var taken = new Array(len);
+		if (n > len)
+				throw new RangeError("Not enough matching ingredients in the database!");
+		while (n--) {
+				var x = Math.floor(Math.random() * len);
+				selected[n] = ingrs[x in taken ? taken[x] : x];
+				taken[x] = --len in taken ? taken[len] : len;
+		}
+		return selected;;
 	}
 
 	sliderTooltipGenerator(value) {
@@ -104,7 +145,8 @@ class Piler extends Component {
 }
 
 export default withTracker(() => {
+	Meteor.subscribe('ingredients')
 	return {
-		ingredients: Ingredients.find({}, { sort: { createdAt: -1 } }).fetch(),
+		ingredients: Ingredients.find({}, { sort: { createdAt: -1 } }).fetch()
 	};
 })(Piler);
