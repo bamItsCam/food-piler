@@ -29,7 +29,7 @@ export default class IngredientTag extends Component {
 					</td>
 					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrNameInline" defaultValue={this.props.ingredient.ingrName}/></td>
 					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrDescInline" defaultValue={this.props.ingredient.ingrDesc}/></td>
-					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrFlexInline" defaultValue={this.props.ingredient.ingrFlex}/></td>
+					<td><input className="input" type="text" onKeyDown={this.handleSubmitWithEnter.bind(this)} ref="ingrRiskInline" defaultValue={this.props.ingredient.ingrRisk}/></td>
 					<td>
 						<input
 						type="checkbox"
@@ -125,7 +125,7 @@ export default class IngredientTag extends Component {
 					</td>
 					<td>{this.props.ingredient.ingrName}</td>
 					<td>{this.props.ingredient.ingrDesc}</td>
-					<td>{this.props.ingredient.ingrFlex}</td>
+					<td>{this.props.ingredient.ingrRisk}</td>
 					<td>{(this.props.ingredient.isBase) ? 'yes' : 'no'}</td>
 					<td>{(this.props.ingredient.isFiller) ? 'yes' : 'no'}</td>
 					<td>{(this.props.ingredient.isTopping) ? 'yes' : 'no'}</td>
@@ -164,9 +164,9 @@ export default class IngredientTag extends Component {
 		// their state. This can be changed if not preferred
 		const ingrName = ReactDOM.findDOMNode(this.refs.ingrNameInline).value.trim();
 		const ingrDesc = ReactDOM.findDOMNode(this.refs.ingrDescInline).value.trim();
-		const ingrFlex = ReactDOM.findDOMNode(this.refs.ingrFlexInline).value.trim();
+		const ingrRisk = ReactDOM.findDOMNode(this.refs.ingrRiskInline).value.trim();
 
-		Meteor.call('ingredients.submitIngrText', this.props.ingredient._id, ingrName, ingrDesc, ingrFlex);
+		Meteor.call('ingredients.submitIngrText', this.props.ingredient._id, ingrName, ingrDesc, ingrRisk);
 	}
 
 	deleteIngr() {

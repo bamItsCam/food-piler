@@ -105,7 +105,7 @@ class Admin extends Component {
 				<th className="table-two-buttons">{(isHead) ? this.renderAddAndUploadButton() : ''}</th>
 				<th className="table-name">Name</th>
 				<th className="table-desc">Description</th>
-				<th className="table-number"><abbr title="Flexibility">Flex</abbr></th>
+				<th className="table-number"><abbr title="Riskiness">Risk</abbr></th>
 				<th className="table-bool">Base</th>
 				<th className="table-bool"><abbr title="Filler">Fill</abbr></th>
 				<th className="table-bool"><abbr title="Topping">Top</abbr></th>
