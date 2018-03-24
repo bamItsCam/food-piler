@@ -18,7 +18,6 @@ export default class LoginRegisterForm extends Component {
 		return (
 			// submitAction is a function passed in by the parent. This action will either be a login or register command
 			// submitButtonLabel will also be passed in from the parent
-			// TODO: submit on enter press (look at ingredientTag for catching key #)
 			<div>
 				<div className="field">
 					<p className="control has-icons-left has-icons-right">

@@ -100,10 +100,10 @@ class Piler extends Component {
 	onAfterChange = (value) => {
 
 	}
-
 }
 
 export default withTracker(() => {
+	Meteor.subscribe('ingredients');
 	return {
 		ingredients: Ingredients.find({}, { sort: { createdAt: -1 } }).fetch(),
 	};

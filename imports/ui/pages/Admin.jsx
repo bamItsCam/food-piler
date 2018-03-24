@@ -122,7 +122,7 @@ class Admin extends Component {
 }
 
 export default withTracker(() => {
-	Meteor.subscribe('adminIngredients');
+	Meteor.subscribe('ingredients');
 	return {
 		ingredients: Ingredients.find({}, { sort: { createdAt: -1 } }).fetch(),
 		currentUser: Meteor.user(),
