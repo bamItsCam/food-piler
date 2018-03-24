@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 import Slider, { Range, createSliderWithTooltip } from 'rc-slider';
 import { withTracker } from 'meteor/react-meteor-data';
 import 'rc-slider/assets/index.css';
+import { rnorm } from 'randgen';
 
 import { Ingredients } from '../../api/ingredients.jsx';
+import RecipeTag from '../components/RecipeTag.jsx';
 
 import DietFilters from '../components/DietFilters.jsx';
 import NavBar from '../components/Nav.jsx';
@@ -25,6 +27,10 @@ class Piler extends Component {
 				veggieCheck: false,
 				fishCheck: false
 			},
+			selectedIngrs : [],
+			recipeCardVisibility : "hidden",
+			notifUp : false,
+			notifMessage : "",
 			sliderValue: value,
 			sliderColor: "rgb("+Math.floor(2.55*value)+","+Math.floor(125-value)+","+Math.floor(2.55*(100-value))+")"
 		};
@@ -69,15 +75,52 @@ class Piler extends Component {
 								</a>
 							</form>
 						</div>
+						<div>
+							{this.renderNotif()}
+						</div>
+						<div className="box" ref="recipeBox" style={{visibility:this.state.recipeCardVisibility}}>
+							<h3 className="title has-text-grey">
+								Your Pile!
+							</h3>
+							<div className="tile is-ancestor is-vertical">
+								{this.renderRecipe()}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		);
 	}
 
+	clearNotif() {
+		this.setState({ notifUp: false });
+	}
+
+	renderNotif() {
+		if (this.state.notifUp) {
+			return (
+				<div className="notification is-danger"> 
+					{this.state.notifMessage}
+	  			<button onClick={this.clearNotif.bind(this)} className="delete"></button>
+				</div>
+				);
+			}
+	}
+
+	renderRecipe() {
+		return this.state.selectedIngrs.
+			map((ingredient) => (
+			<RecipeTag 
+				key={ingredient._id}
+				ingredient={ingredient}
+			/>));
+	}
+
 	pileIt() {
-		// Generate a minimum flexibility for all ingredients based on the riskiness slider value.
-		var min_flex = this.state.sliderValue/10;
+
+		this.setState({ selectedIngrs : [],recipeCardVisibility: 'hidden'});
+		var slider_risk = Math.floor((this.state.sliderValue/10) + 1);
+		this.clearNotif();
 
 		// Get the current states of the dietary restriction filters.
 		var current_filter_states = [
@@ -97,28 +140,55 @@ class Piler extends Component {
 			function(ingr) {
 				var ingr_states = [ingr.isGF,ingr.isDF,ingr.isEF,ingr.isVeggie,ingr.isVegan,ingr.isPesc];
 
-				return ingr.ingrFlex >= min_flex &&
-					(unfiltered || current_filter_states.every((e,i)=> e === ingr_states[i] ));
+				return (unfiltered || current_filter_states.every((e,i)=> e === ingr_states[i] ));
 			}
 		);
 
 		// Select 5 ingredients that match the criteria.
-		var selected = this.selectIngredients(available_ingredients,5);
-		console.log(selected);
+		var selected = this.selectIngredients(slider_risk,available_ingredients,5);
+		this.setState({ selectedIngrs : selected,recipeCardVisibility : "visible"});
 	}
 
-	selectIngredients(ingrs,n) {
+	selectIngredients(slider_risk,ingrs,n) {
 		var selected = new Array(n);
-		var len = ingrs.length; 
-		var taken = new Array(len);
-		if (n > len)
-				throw new RangeError("Not enough matching ingredients in the database!");
-		while (n--) {
-				var x = Math.floor(Math.random() * len);
-				selected[n] = ingrs[x in taken ? taken[x] : x];
-				taken[x] = --len in taken ? taken[len] : len;
+
+		// Get a "max-riskiness"
+		var rand_num = Math.floor(Math.abs(rnorm(slider_risk,1)-slider_risk));
+
+		// Get all ingredients in the database that have a riskiness less than the max riskiness
+		var viably_risky_ingrs = ingrs.filter((ingr) => ingr.ingrRisk <= (slider_risk + rand_num));
+		var bases = viably_risky_ingrs.filter((ingr) => ingr.isBase);
+
+		var current_index = 0;
+ 
+		// If there aren't enough ingredients within the riskiness range, throw an error
+		if (n > viably_risky_ingrs.length) {
+			this.setState({ notifUp: true, notifMessage: "Sorry. Not enough matching ingredients in the database! :("});
+			throw new RangeError(this.state.notifMessage);
+			}
+
+		// First, choose a base if riskiness isn't too high
+		if (slider_risk <= 5 && bases.length > 0) {
+			var ind = Math.floor(Math.random() * (bases.length-1));
+			selected[0] = bases[ind];
+			current_index++;
 		}
-		return selected;;
+
+		// Next, select the other ingredients
+		while(current_index < n) {
+			var ind = Math.floor(Math.random() * (viably_risky_ingrs.length-1));
+
+			while(selected.includes(viably_risky_ingrs[ind])) {
+				ind = Math.floor(Math.random() * (viably_risky_ingrs.length-1));
+				console.log(ind);
+			}
+
+			selected[current_index] = viably_risky_ingrs[ind];
+
+			current_index++;
+		}
+
+		return selected;
 	}
 
 	sliderTooltipGenerator(value) {

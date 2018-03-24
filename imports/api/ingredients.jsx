@@ -32,11 +32,11 @@ Meteor.methods({
 			}
 		});
 	},
-	'ingredients.submitIngrText'(ingredientId, ingrName, ingrDesc, ingrFlex) {
+	'ingredients.submitIngrText'(ingredientId, ingrName, ingrDesc, ingrRisk) {
 		check(ingredientId, String);
 		check(ingrName, String);
 		check(ingrDesc, String);
-		check(ingrFlex, String);
+		check(ingrRisk, String);
 
 		ingrForUserCheck = Ingredients.findOne(ingredientId);
 		if(Meteor.userId() == null || Meteor.userId() != ingrForUserCheck.ownerId) {
@@ -47,7 +47,7 @@ Meteor.methods({
 			$set: {
 				ingrName: ingrName,
 				ingrDesc: ingrDesc,
-				ingrFlex: ingrFlex,
+				ingrRisk: ingrRisk,
 				editing: false,
 			}
 		});
@@ -87,7 +87,7 @@ Meteor.methods({
 		Ingredients.insert({
 			ingrName: '',
 			ingrDesc: '',
-			ingrFlex: '',
+			ingrRisk: '',
 			isBase: false,
 			isFiller: false,
 			isTopping: false,
@@ -113,7 +113,7 @@ Meteor.methods({
 		Ingredients.insert({
 			ingrName: i.ingrName,
 			ingrDesc: i.ingrDesc,
-			ingrFlex: i.ingrFlex,
+			ingrRisk: i.ingrRisk,
 			isBase: (i.isBase.toLowerCase() == 'true'),
 			isFiller: (i.isFiller.toLowerCase() == 'true'),
 			isTopping: (i.isTopping.toLowerCase() == 'true'),
