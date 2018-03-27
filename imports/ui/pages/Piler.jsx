@@ -28,7 +28,7 @@ class Piler extends Component {
 				fishCheck: false
 			},
 			selectedIngrs : [],
-			recipeCardVisibility : "hidden",
+			recipeCardVisibility : "hidden", // Yo abbi, why not push this logic to the render function? Why use css to hide?
 			notifUp : false,
 			notifMessage : "",
 			sliderValue: value,
@@ -63,9 +63,9 @@ class Piler extends Component {
 												tipFormatter={this.sliderTooltipGenerator}
 												value={this.state.sliderValue}
 												trackStyle={{backgroundColor:this.state.sliderColor,height:10}}
+												// handle styling not yet supported with tooltip sliders
 												//handleStyle={{backgroundColor:this.state.sliderColor,height:20,width:20}}
 												onChange={this.onSliderChange}
-												onAfterChange={this.onAfterChange}
 											/>
 										</div>					
 									</div>
@@ -108,18 +108,20 @@ class Piler extends Component {
 	}
 
 	renderRecipe() {
-		return this.state.selectedIngrs.
-			map((ingredient) => (
+		return this.state.selectedIngrs.map((ingredient) => (
 			<RecipeTag 
 				key={ingredient._id}
 				ingredient={ingredient}
-			/>));
+			/>
+		));
 	}
 
 	pileIt() {
 
-		this.setState({ selectedIngrs : [],recipeCardVisibility: 'hidden'});
-		var slider_risk = Math.floor((this.state.sliderValue/10) + 1);
+		this.setState({ 
+			selectedIngrs : [],
+			recipeCardVisibility: 'hidden'
+		});
 		this.clearNotif();
 
 		// Get the current states of the dietary restriction filters.
@@ -133,59 +135,69 @@ class Piler extends Component {
 			];
 
 		// Check if all filters are unchecked.
-		var unfiltered = current_filter_states.every(function(f) { return f == false; });
+		var isUnfiltered = current_filter_states.every( isChecked => { return !isChecked; });
+		console.log(isUnfiltered);
 
 		// Get the set of ingredients that match the min_flex and dietary restrictions.
-		var available_ingredients = this.props.ingredients.filter(
-			function(ingr) {
-				var ingr_states = [ingr.isGF,ingr.isDF,ingr.isEF,ingr.isVeggie,ingr.isVegan,ingr.isPesc];
-
-				return (unfiltered || current_filter_states.every((e,i)=> e === ingr_states[i] ));
-			}
-		);
+		var dietComplientIngrs = this.props.ingredients.filter( ingr => {
+			var ingr_states = [ingr.isGF,ingr.isDF,ingr.isEF,ingr.isVeggie,ingr.isVegan,ingr.isPesc];
+			return (isUnfiltered || current_filter_states.every((e,i)=> e === ingr_states[i] ));
+		});
 
 		// Select 5 ingredients that match the criteria.
-		var selected = this.selectIngredients(slider_risk,available_ingredients,5);
-		this.setState({ selectedIngrs : selected,recipeCardVisibility : "visible"});
+		var selected = this.selectIngredients(this.state.sliderValue,dietComplientIngrs,5);
+		this.setState({ 
+			selectedIngrs : selected,
+			recipeCardVisibility : "visible"
+		});
 	}
 
-	selectIngredients(slider_risk,ingrs,n) {
-		var selected = new Array(n);
+	selectIngredients(sliderVal,ingrs,ingrNum) {
+		var selected = new Array(ingrNum);
+		var minRiskinessOffset = 10;
 
-		// Get a "max-riskiness"
-		var rand_num = Math.floor(Math.abs(rnorm(slider_risk,1)-slider_risk));
+		// if slider is too low, bump it up to the minimum
+		sliderVal = (sliderVal < minRiskinessOffset) ? minRiskinessOffset : sliderVal;
+
+		var variableRisk = Math.floor(Math.abs(rnorm(sliderVal,3)-sliderVal)) + minRiskinessOffset/2;
 
 		// Get all ingredients in the database that have a riskiness less than the max riskiness
-		var viably_risky_ingrs = ingrs.filter((ingr) => ingr.ingrRisk <= (slider_risk + rand_num));
+		var maxRisk = sliderVal + variableRisk
+		console.log("max: " + maxRisk);
+		var viably_risky_ingrs = ingrs.filter((ingr) => ingr.ingrRisk <= (maxRisk));
 		var bases = viably_risky_ingrs.filter((ingr) => ingr.isBase);
+		//var filler = viably_risky_ingrs.filter((ingr) => ingr.isFiller);
 
-		var current_index = 0;
+		var addedIngrCount = 0;
  
 		// If there aren't enough ingredients within the riskiness range, throw an error
-		if (n > viably_risky_ingrs.length) {
+		if (ingrNum > viably_risky_ingrs.length) {
 			this.setState({ notifUp: true, notifMessage: "Sorry. Not enough matching ingredients in the database! :("});
 			throw new RangeError(this.state.notifMessage);
 			}
 
-		// First, choose a base if riskiness isn't too high
-		if (slider_risk <= 5 && bases.length > 0) {
+		// Alow only 1 base if riskiness is under 50
+		if (sliderVal <= 50 && bases.length > 0) {
 			var ind = Math.floor(Math.random() * (bases.length-1));
 			selected[0] = bases[ind];
-			current_index++;
+			addedIngrCount++;
+			//viably_risky_ingrs = viably_risky_ingrs.filter( ingr => !ingr.isBase);
 		}
 
-		// Next, select the other ingredients
-		while(current_index < n) {
+		// ALlow only 1 filler if riskiness is under 50
+		// TODO
+
+		// Next, select the other ingredients (yes, this isn't super efficient)
+		while(addedIngrCount < ingrNum) {
 			var ind = Math.floor(Math.random() * (viably_risky_ingrs.length-1));
 
 			while(selected.includes(viably_risky_ingrs[ind])) {
 				ind = Math.floor(Math.random() * (viably_risky_ingrs.length-1));
-				console.log(ind);
 			}
 
-			selected[current_index] = viably_risky_ingrs[ind];
+			selected[addedIngrCount] = viably_risky_ingrs[ind];
 
-			current_index++;
+			addedIngrCount++;
 		}
 
 		return selected;
@@ -203,13 +215,8 @@ class Piler extends Component {
 		var colVal = "rgb("+Math.floor(2.55*value)+","+Math.floor(125-value)+","+Math.floor(2.55*(100-value))+")";
 		this.setState({ 
 			sliderValue: value,
-			//sliderColor: 'rgb(2.55*{{value}},50,2.55*(100-{{value}})'
 			sliderColor: colVal
 		 });
-	}
-
-	onAfterChange = (value) => {
-
 	}
 }
 

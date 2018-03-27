@@ -26,9 +26,9 @@ table {
 }
 
 .table-number {
-	width: 5%;
-	min-width: 50px;
-	max-width: 70px;
+	width: 7%;
+	min-width: 70px;
+	max-width: 90px;
 }
 
 .table-bool {

@@ -60,7 +60,7 @@ class Admin extends Component {
   }
 
 	isFiltered(ingredient) {
-		return ((this.state.dietFilters.gfCheck && ingredient.isGF) ||
+		return (((this.state.dietFilters.gfCheck && ingredient.isGF) ||
 				(this.state.dietFilters.dfCheck && ingredient.isDF) ||
 				(this.state.dietFilters.efCheck && ingredient.isEF) ||
 				(this.state.dietFilters.veganCheck && ingredient.isVegan) ||
@@ -68,7 +68,7 @@ class Admin extends Component {
 				(this.state.dietFilters.fishCheck && ingredient.isPesc)) ||
 				(!this.state.dietFilters.gfCheck && !this.state.dietFilters.dfCheck &&
 					!this.state.dietFilters.efCheck && !this.state.dietFilters.veganCheck &&
-					!this.state.dietFilters.veggieCheck && !this.state.dietFilters.fishCheck);
+					!this.state.dietFilters.veggieCheck && !this.state.dietFilters.fishCheck));
 	}
 
 	renderIngredients() {
@@ -79,7 +79,6 @@ class Admin extends Component {
 				key={ingredient._id}
 				ingredient={ingredient}
 			/>));
-		console.log(this.state.dietFilters);
 	}
 
 	addNewBlankIngredient() {
